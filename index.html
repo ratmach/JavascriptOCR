@@ -1,0 +1,60 @@
+<html>
+<head>
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+</head>
+<body>
+<div id="canvasDiv" style="background-color:yellow;">
+<canvas id="drawCanvas" width="490" height="220"></canvas></div>
+<script>
+var paint = false;
+var cX = [];
+var cY = [];
+var cD = [];
+$(document).ready(function(){
+	console.log("aaa");
+	$("#canvasDiv").mousedown(function(e){
+		var mX = e.pageX - this.offsetLeft;
+		var mY = e.pageY - this.offsetTop;
+		addClick(mX,mY,false);
+		paint = true;
+	}).mousemove(function (e){
+		var mX = e.pageX - this.offsetLeft;
+		var mY = e.pageY - this.offsetTop;
+		if(paint){
+			addClick(mX,mY,true);
+		}
+	}).mouseup(function (e){
+		paint=false;
+	}).mouseleave(function (e){
+		paint=false;
+	});
+});
+function addClick(x,y,dragging){
+	cX.push(x);
+	cY.push(y);
+	cD.push(dragging);
+	redraw();
+}
+function redraw(){
+	var canvas = document.getElementById("drawCanvas");
+	var cont = canvas.getContext("2d");
+	cont.clearRect(0,0, cont.canvas.width,cont.canvas.height);
+	cont.strokeStyle = "#000";
+	cont.lineJoin = "round";
+	cont.lineWidth = 5;
+			
+	for(var i=0; i < cX.length; i++) {		
+		cont.beginPath();
+		if(cD[i] && i){
+			cont.moveTo(cX[i-1], cY[i-1]);
+		}else{
+			cont.moveTo(cX[i]-1, cY[i]);
+		}
+		cont.lineTo(cX[i], cY[i]);
+		cont.closePath();
+		cont.stroke();
+  }
+}
+</script>
+</body>
+</html>
