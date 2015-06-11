@@ -10,6 +10,7 @@ function checkCanvas(canvas,height,width){
 **/
 function rescale(cont,height,width){
 	var downscale=new Array([]);
+	var 32b32=new Array([]);
 	var cont = canvas.getContext("2d").getImageData(0,0,height,width);
 	var x1=null;//find offset of rectangle for part of the picture
 	var y1=null;
@@ -17,8 +18,14 @@ function rescale(cont,height,width){
 	var y2=null;
 	for(var y=0;y<height;++y){
 		for(var x=0;x<width;++x){
+			if(cont[(x+(y*width))*4]>0){
+				downscale[x][y]=true;
+			}
+		}
+	}
+	for(var y=0;y<32;++y){
+		for(var x=0;x<32;++x){
 			
 		}
 	}
-	
 }
